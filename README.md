@@ -78,14 +78,16 @@ The project is built with React (MUI + TailwindCSS) for the frontend, and ASP.NE
 
 ## How to Run
 ### Backend
-  1- cd ClientManagementApi
-  2- dotnet restore
-  3- dotnet run
+``` bash
+  cd ClientManagementApi
+  dotnet restore
+  dotnet run
 
 ### Frontend
-  1- cd ClientManagementUI
-  2- npm install
-  3- npm start
+``` bash
+  cd ClientManagementUI
+  npm install
+  npm start
 
 
 ## Screenshots
