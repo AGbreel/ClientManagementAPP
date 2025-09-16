@@ -1,0 +1,4 @@
+dotnet run
+http://localhost:5098/swagger/index.html
+
+"SuperSecretKey_2025!ChangeMePlz_12345",

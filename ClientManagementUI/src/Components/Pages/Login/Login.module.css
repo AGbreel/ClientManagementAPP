@@ -1,0 +1,114 @@
+.container {
+  position: relative;
+  width: 256px;
+  height: 256px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container span {
+  position: absolute;
+  left: 0;
+  width: 20px;
+  height: 6px;
+  background-color: #000;
+  border-radius: 8px;
+  transform-origin: 128px;
+  transform: scale(2.4) rotate(calc(var(--i) * (360deg / 50)));
+  animation: blink 3s linear infinite;
+  animation-delay: calc(var(--i) * (3s / 50));
+}
+
+@keyframes blink {
+  0% {
+    background: #eeede9;
+  }
+  25% {
+    background: #000;
+  }
+}
+
+.loginBox {
+  position: absolute;
+  width: 400px;
+}
+
+form {
+  width: 100%;
+  padding: 0;
+}
+
+.inputBox {
+  position: relative;
+  margin: 10px 0;
+}
+
+.input {
+  width: 100%;
+  height: 50px;
+  background: transparent;
+  border: 2px solid #2c4766;
+  outline: none;
+  border-radius: 40px;
+  font-size: 1em;
+  color: #000;
+  padding: 0 20px;
+  transition: 0.5s ease;
+  margin: 0;
+}
+
+.input:focus {
+  border-color: #000;
+}
+
+.label {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  color: transparent;
+  font-size: 1em;
+  pointer-events: none;
+  transition: 0.5s ease;
+}
+
+.input:focus ~ .label {
+  top: 1px;
+  font-size: 0.8em;
+  background: #2c4766;
+  padding: 0 6px;
+  color: #fff;
+  border-radius: 20px;
+}
+
+.forgetPass {
+  margin: 15px 0 15px;
+  text-align: center;
+}
+
+.forgetPass a {
+  color: #000;
+  text-decoration: none;
+  font-size: 0.85em;
+  font-weight: 600;
+}
+
+.btn {
+  width: 100%;
+  height: 45px;
+  background-color: #000;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  cursor: pointer;
+  font-size: 1em;
+  color: #fff;
+  font-weight: 600;
+}
+
+.additional {
+    width: 70%;
+    margin-inline: auto;
+    margin-top: 25px;
+}
