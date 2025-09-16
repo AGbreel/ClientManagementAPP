@@ -1,0 +1,256 @@
+﻿-- CREATE DATABASE ClientManagementDB;
+-------------------------------------------------------------
+-------------------------------------------------------------
+-------------------------------------------------------------
+--CREATE TABLE Clients (
+--    ClientId INT IDENTITY(1,1) PRIMARY KEY,
+--    Name NVARCHAR(100) NOT NULL,
+--    NationalId NVARCHAR(20) UNIQUE NOT NULL,
+--    Age INT NOT NULL,
+--    AccountNumber NVARCHAR(30) UNIQUE NOT NULL,
+--    MaxCreditBalance DECIMAL(18,2) NOT NULL,
+--    CurrentBalance DECIMAL(18,2) NOT NULL DEFAULT 0
+--);
+-------------------------------------------------------------
+-------------------------------------------------------------
+--ALTER TABLE Clients
+--ADD CreatedAt DATETIME DEFAULT GETDATE();
+-------------------------------------------------------------
+--TRUNCATE TABLE Clients;
+
+--DELETE FROM Clients;
+-------------------------------------------------------------
+-------------------------------------------------------------
+-------------------------------------------------------------
+--CREATE TABLE Transactions (
+--    TransactionId INT IDENTITY(1,1) PRIMARY KEY,
+--    ClientId INT NOT NULL,
+--    TransactionType NVARCHAR(10) CHECK (TransactionType IN ('Deposit','Withdraw')) NOT NULL,
+--    TransactionAmount DECIMAL(18,2) NOT NULL,
+--    TransactionDate DATETIME DEFAULT GETDATE(),
+--    BalanceAfterTransaction DECIMAL(18,2) NULL,
+--    FOREIGN KEY (ClientId) REFERENCES Clients(ClientId)
+--);
+-------------------------------------------------------------
+-------------------------------------------------------------
+-------------------------------------------------------------
+--CREATE PROCEDURE AddClient
+--    @Name NVARCHAR(100),
+--    @NationalId NVARCHAR(20),
+--    @Age INT,
+--    @AccountNumber NVARCHAR(30),
+--    @MaxCreditBalance DECIMAL(18,2)
+--AS
+--BEGIN
+--    INSERT INTO Clients (Name, NationalId, Age, AccountNumber, MaxCreditBalance)
+--    VALUES (@Name, @NationalId, @Age, @AccountNumber, @MaxCreditBalance);
+--END;
+-------------------------------------------------------------
+-------------------------------------------------------------
+--ALTER PROCEDURE AddClient
+--    @Name NVARCHAR(100),
+--    @NationalId NVARCHAR(20),
+--    @Age INT,
+--    @AccountNumber NVARCHAR(30),
+--    @MaxCreditBalance DECIMAL(18,2),
+--    @NewId INT OUTPUT
+--AS
+--BEGIN
+--    INSERT INTO Clients (Name, NationalId, Age, AccountNumber, MaxCreditBalance, CreatedAt)
+--    VALUES (@Name, @NationalId, @Age, @AccountNumber, @MaxCreditBalance, GETDATE());
+
+--    -- رجع الـ Id الجديد
+--    SET @NewId = SCOPE_IDENTITY();
+--END;
+-------------------------------------------------------------
+-------------------------------------------------------------
+-------------------------------------------------------------
+--CREATE PROCEDURE AddTransaction
+--    @ClientId INT,
+--    @TransactionType NVARCHAR(10),
+--    @TransactionAmount DECIMAL(18,2)
+--AS
+--BEGIN
+--    DECLARE @CurrentBalance DECIMAL(18,2);
+
+--    SELECT @CurrentBalance = CurrentBalance FROM Clients WHERE ClientId = @ClientId;
+
+--    IF @TransactionType = 'Withdraw' AND @TransactionAmount > @CurrentBalance
+--    BEGIN
+--        RAISERROR('Insufficient balance.', 16, 1);
+--        RETURN;
+--    END
+
+--    IF @TransactionType = 'Deposit'
+--    BEGIN
+--        SET @CurrentBalance = @CurrentBalance + @TransactionAmount;
+--    END
+--    ELSE IF @TransactionType = 'Withdraw'
+--    BEGIN
+--        SET @CurrentBalance = @CurrentBalance - @TransactionAmount;
+--    END
+
+--    UPDATE Clients SET CurrentBalance = @CurrentBalance WHERE ClientId = @ClientId;
+
+--    INSERT INTO Transactions (ClientId, TransactionType, TransactionAmount, BalanceAfterTransaction)
+--    VALUES (@ClientId, @TransactionType, @TransactionAmount, @CurrentBalance);
+--END;
+-------------------------------------------------------------
+--ALTER PROCEDURE AddTransaction
+--    @ClientId INT,
+--    @TransactionType NVARCHAR(10),
+--    @TransactionAmount DECIMAL(18,2),
+--    @NewTransactionId INT OUTPUT,
+--    @NewBalance DECIMAL(18,2) OUTPUT
+--AS
+--BEGIN
+--    DECLARE @CurrentBalance DECIMAL(18,2);
+--    DECLARE @MaxCreditBalance DECIMAL(18,2);
+
+--    -- جيب الرصيد الحالي والحد الأقصى
+--    SELECT 
+--        @CurrentBalance = CurrentBalance,
+--        @MaxCreditBalance = MaxCreditBalance
+--    FROM Clients 
+--    WHERE ClientId = @ClientId;
+
+--    -- تحقق من السحب
+--    IF @TransactionType = 'Withdraw' AND @TransactionAmount > @CurrentBalance
+--    BEGIN
+--        RAISERROR('Insufficient balance.', 16, 1);
+--        RETURN;
+--    END
+
+--    -- تحقق من الإيداع > الحد الأقصى
+--    IF @TransactionType = 'Deposit' AND (@CurrentBalance + @TransactionAmount) > @MaxCreditBalance
+--    BEGIN
+--        RAISERROR('Deposit exceeds maximum credit balance.', 16, 1);
+--        RETURN;
+--    END
+
+--    -- حدّث الرصيد
+--    IF @TransactionType = 'Deposit'
+--    BEGIN
+--        SET @CurrentBalance = @CurrentBalance + @TransactionAmount;
+--    END
+--    ELSE IF @TransactionType = 'Withdraw'
+--    BEGIN
+--        SET @CurrentBalance = @CurrentBalance - @TransactionAmount;
+--    END
+
+--    -- عدل رصيد العميل
+--    UPDATE Clients 
+--    SET CurrentBalance = @CurrentBalance 
+--    WHERE ClientId = @ClientId;
+
+--    -- أضف الترانزاكشن الجديد
+--    INSERT INTO Transactions (ClientId, TransactionType, TransactionAmount, BalanceAfterTransaction)
+--    VALUES (@ClientId, @TransactionType, @TransactionAmount, @CurrentBalance);
+
+--    -- رجّع الـ TransactionId الجديد
+--    SET @NewTransactionId = SCOPE_IDENTITY();
+
+--    -- رجّع الرصيد الجديد
+--    SET @NewBalance = @CurrentBalance;
+--END;
+-------------------------------------------------------------
+-------------------------------------------------------------
+-------------------------------------------------------------
+--CREATE PROCEDURE GetClients
+--AS
+--BEGIN
+--    SELECT ClientId, Name, NationalId, Age, AccountNumber, MaxCreditBalance, CurrentBalance
+--    FROM Clients;
+--END;
+-------------------------------------------------------------
+--ALTER PROCEDURE GetClients
+--AS
+--BEGIN
+--    SELECT ClientId, 
+--           Name, 
+--           NationalId, 
+--           Age, 
+--           AccountNumber, 
+--           MaxCreditBalance, 
+--           CurrentBalance,
+--           CreatedAt
+--    FROM Clients;
+--END;
+-------------------------------------------------------------
+-------------------------------------------------------------
+-------------------------------------------------------------
+--CREATE PROCEDURE GetTransactions
+--AS
+--BEGIN
+--    SELECT T.TransactionId, C.Name AS ClientName, T.TransactionType, 
+--           T.TransactionAmount, T.TransactionDate, T.BalanceAfterTransaction
+--    FROM Transactions T
+--    INNER JOIN Clients C ON T.ClientId = C.ClientId
+--    ORDER BY T.TransactionDate DESC;
+--END;
+-------------------------------------------------------------
+--ALTER PROCEDURE GetTransactions
+--AS
+--BEGIN
+--    SELECT 
+--        T.TransactionId, 
+--        T.ClientId,
+--        C.Name AS ClientName, 
+--        T.TransactionType, 
+--        T.TransactionAmount AS Amount, 
+--        T.TransactionDate, 
+--        T.BalanceAfterTransaction AS BalanceAfter
+--    FROM Transactions T
+--    INNER JOIN Clients C ON T.ClientId = C.ClientId
+--    ORDER BY T.TransactionDate DESC;
+--END;
+-------------------------------------------------------------
+-------------------------------------------------------------
+-------------------------------------------------------------
+--CREATE PROCEDURE DeleteClient
+--    @ClientId INT
+--AS
+--BEGIN
+--    -- امسح كل المعاملات المرتبطة بالعميل الأول
+--    DELETE FROM Transactions WHERE ClientId = @ClientId;
+
+--    -- بعدين امسح العميل نفسه
+--    DELETE FROM Clients WHERE ClientId = @ClientId;
+--END;
+-------------------------------------------------------------
+-------------------------------------------------------------
+-------------------------------------------------------------
+--CREATE PROCEDURE GetClientById
+--    @ClientId INT
+--AS
+--BEGIN
+--    SELECT ClientId, 
+--           Name, 
+--           NationalId, 
+--           Age, 
+--           AccountNumber, 
+--           MaxCreditBalance, 
+--           CurrentBalance,
+--           CreatedAt
+--    FROM Clients
+--    WHERE ClientId = @ClientId;
+--END;
+-------------------------------------------------------------
+-------------------------------------------------------------
+-------------------------------------------------------------
+
+--DBCC CHECKIDENT ('Clients', RESEED, 0);
+
+--EXEC AddClient 
+--    @Name = 'Ahmed Gbreel',
+--    @NationalId = '12345678901234',
+--    @Age = 23,
+--    @AccountNumber = 'AC123456',
+--    @MaxCreditBalance = 15000;
+
+EXEC GetClients;
+
+--EXEC DeleteClient @ClientId = 1;
+
+
+
