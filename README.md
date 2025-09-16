@@ -69,6 +69,7 @@ npm start
 #================================================================
 📷 Screenshots
 <img width="1222" height="913" alt="API" src="https://github.com/user-attachments/assets/59815a4d-ab1e-46c2-9e3e-c187bb101025" />
+<img width="1920" height="928" alt="image" src="https://github.com/user-attachments/assets/088300e2-80e6-44f5-97be-0ca385ec7b31" />
 <img width="1920" height="930" alt="image" src="https://github.com/user-attachments/assets/b7015083-7218-402b-9270-32dee46fb819" />
 <img width="1920" height="930" alt="image" src="https://github.com/user-attachments/assets/34649a73-e7d2-45ea-88f0-062e3387b4ed" />
 <img width="1920" height="897" alt="image" src="https://github.com/user-attachments/assets/e487d724-6374-4413-b157-242c5d5eadd1" />
