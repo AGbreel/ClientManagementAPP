@@ -4,7 +4,8 @@
 A full-stack project for managing clients and banking transactions.
 It provides a web interface to add clients, record transactions, and view detailed logs.
 The project is built with React (MUI + TailwindCSS) for the frontend, and ASP.NET Core + SQL Server for the backend.
-================================================================
+
+
 ## Features
 ### Authentication: Sign in with a predefined user.
 ### Client Management:
@@ -15,7 +16,8 @@ The project is built with React (MUI + TailwindCSS) for the frontend, and ASP.NE
   - Add new transaction (AddTransaction).
   - View all transactions (GetTransactions).
 ### Dashboard: Overview of clients and transactions.
-================================================================
+
+
 ## Database (SQL Server)
 ### Stored Procedures:
   - AddClient → Insert a new client.
@@ -29,7 +31,8 @@ The project is built with React (MUI + TailwindCSS) for the frontend, and ASP.NE
   - Clients → Stores client info (ClientId, Name, NationalId, Age, AccountNumber, MaxCreditBalance, CurrentBalance).
   - Transactions → Stores transactions (TransactionId, ClientId, TransactionType, TransactionAmount, TransactionDate, BalanceAfterTransaction).
   - Users → Stores login credentials.
-================================================================
+
+
 ## Backend (ASP.NET Core Web API)
 ### Stack: C#, ASP.NET Core, SQL Server.
 
@@ -40,7 +43,8 @@ The project is built with React (MUI + TailwindCSS) for the frontend, and ASP.NE
   - GET /api/clients/{id} → Get client by ID.
   - POST /api/transactions → Add transaction.
   - GET /api/transactions → Get all transactions.
-================================================================
+
+
 ## Frontend (React)
 ### Stack: React, MUI, TailwindCSS, Axios.
 
@@ -51,22 +55,39 @@ The project is built with React (MUI + TailwindCSS) for the frontend, and ASP.NE
   - Client Management → Add clients.
   - Transaction Log → View all transactions.
   - Transaction Records → Add transaction for specific Client.
-================================================================
+
+
+## ClientManagementSystem/
+│── backend/         # ASP.NET Core Web API
+│   ├── Controllers/
+│   ├── Repositories/
+│   ├── DTOs/
+│   └── StoredProcedures.sql
+│
+│── frontend/        # React + MUI + Tailwind
+│   ├── pages/
+│   │   ├── Login.jsx
+│   │   ├── Dashboard.jsx
+│   │   ├── ClientList.jsx
+│   │   ├── ClientManagement.jsx
+│   │   ├── TransactionLog.jsx
+│   │   └── TransactionRecords.jsx
+│
+└── README.md
+
+
 ## How to Run
 ### Backend
---------------
-cd ClientManagementApi
-dotnet restore
-dotnet run
---------------
+  1- cd ClientManagementApi
+  2- dotnet restore
+  3- dotnet run
 
 ### Frontend
---------------
-cd ClientManagementUI
-npm install
-npm start
---------------
-================================================================
+  1- cd ClientManagementUI
+  2- npm install
+  3- npm start
+
+
 ## Screenshots
 <img width="1222" height="913" alt="API" src="https://github.com/user-attachments/assets/59815a4d-ab1e-46c2-9e3e-c187bb101025" />
 <img width="1920" height="928" alt="image" src="https://github.com/user-attachments/assets/088300e2-80e6-44f5-97be-0ca385ec7b31" />
