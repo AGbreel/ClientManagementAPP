@@ -1,11 +1,11 @@
-Banking Management System
-*Overview
+# Banking Management System
+## Overview
 
 A full-stack project for managing clients and banking transactions.
 It provides a web interface to add clients, record transactions, and view detailed logs.
 The project is built with React (MUI + TailwindCSS) for the frontend, and ASP.NET Core + SQL Server for the backend.
 #================================================================
-*Features
+## Features
 >Authentication: Sign in with a predefined user.
 >Client Management:
   - Add a new client (AddClient).
@@ -16,7 +16,7 @@ The project is built with React (MUI + TailwindCSS) for the frontend, and ASP.NE
   - View all transactions (GetTransactions).
 >Dashboard: Overview of clients and transactions.
 #================================================================
-*Database (SQL Server)
+## Database (SQL Server)
 >Stored Procedures:
   - AddClient → Insert a new client.
   - GetClients → Fetch all clients.
@@ -30,7 +30,7 @@ The project is built with React (MUI + TailwindCSS) for the frontend, and ASP.NE
   - Transactions → Stores transactions (TransactionId, ClientId, TransactionType, TransactionAmount, TransactionDate, BalanceAfterTransaction).
   - Users → Stores login credentials.
 #================================================================
-*Backend (ASP.NET Core Web API)
+## Backend (ASP.NET Core Web API)
 >Stack: C#, ASP.NET Core, SQL Server.
 
 Endpoints:
@@ -41,7 +41,7 @@ Endpoints:
   - POST /api/transactions → Add transaction.
   - GET /api/transactions → Get all transactions.
 #================================================================
-*Frontend (React)
+## Frontend (React)
 >Stack: React, MUI, TailwindCSS, Axios.
 
 >Pages:
@@ -52,7 +52,7 @@ Endpoints:
   - Transaction Log → View all transactions.
   - Transaction Records → Add transaction for specific Client.
 #================================================================
-*How to Run
+## How to Run
 >Backend
 --------------
 cd ClientManagementApi
@@ -67,7 +67,7 @@ npm install
 npm start
 --------------
 #================================================================
-*Screenshots
+## Screenshots
 <img width="1222" height="913" alt="API" src="https://github.com/user-attachments/assets/59815a4d-ab1e-46c2-9e3e-c187bb101025" />
 <img width="1920" height="928" alt="image" src="https://github.com/user-attachments/assets/088300e2-80e6-44f5-97be-0ca385ec7b31" />
 <img width="1920" height="930" alt="image" src="https://github.com/user-attachments/assets/b7015083-7218-402b-9270-32dee46fb819" />
