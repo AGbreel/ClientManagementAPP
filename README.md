@@ -58,6 +58,7 @@ The project is built with React (MUI + TailwindCSS) for the frontend, and ASP.NE
 
 
 ## ClientManagementSystem/
+```
 │── backend/         # ASP.NET Core Web API
 │   ├── Controllers/
 │   ├── Repositories/
@@ -74,7 +75,7 @@ The project is built with React (MUI + TailwindCSS) for the frontend, and ASP.NE
 │   │   └── TransactionRecords.jsx
 │
 └── README.md
-
+```
 
 ## How to Run
 ### Backend
